@@ -1,0 +1,73 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "apiProfile": "2018-03-01-hybrid",
+    "parameters": {
+      "adminUsername": {
+        "type": "string",
+        "metadata": {
+          "description": "Username for the Virtual Machine. Default value root"
+        },
+        "defaultValue": "root"
+      },
+      "vmSize": {
+        "type": "string",
+        "defaultValue": "Standard_A1",
+        "metadata": {
+          "description": "The size of the Virtual Machine."
+        }
+      }
+    },
+    "variables": {
+      "location": "[resourceGroup().location]",
+      "vmName": "AzsVM01"
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Compute/virtualMachines",
+        "name": "[variables('vmName')]",
+        "location": "[variables('location')]",
+        "dependsOn": [],
+        "properties": {
+          "hardwareProfile": {
+            "vmSize": "[parameters('vmSize')]"
+          },
+          "storageProfile": {
+            "osDisk": {
+            "osType": "Linux",
+              "name": "AzsVM01_osdisk",
+              "vhd": {
+                "uri": "https://azsstg01.blob.azurestack.local/vhds/azsvm01_osdisk.vhd"
+              },
+              "caching": "ReadWrite",
+              "createOption": "Attach"
+            },
+            "dataDisks": [
+              {
+                "name": "AzsVM01_datadisk01",
+                "diskSizeGB": "100",
+                "lun": 1,
+                "createOption": "Attach",
+                 "vhd": {
+                     "uri": "https://azsstg01.blob.azurestack.local/data/azsvm01_datadisk01.vhd"
+                 }
+              }
+            ]
+          },
+          "networkProfile": {
+            "networkInterfaces": [
+              {
+                "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/azs-rg/providers/Microsoft.Network/networkInterfaces/azsvm01_nic01"
+              }
+            ]
+          },
+          "diagnosticsProfile": {
+            "bootDiagnostics": {
+              "enabled": "true",
+              "storageUri": "https://azsstg01diag.blob.azurestack.local/bootdiagnostics-azsvm01"
+            }
+          }
+        }
+      }
+    ]
+  }
