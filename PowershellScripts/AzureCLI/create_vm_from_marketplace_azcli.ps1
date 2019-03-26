@@ -1,5 +1,5 @@
 ﻿## deploy vm with image from marketplace, for the format should be using URN
-## check list URN image from marketplace
+## check URN images list from marketplace
 az vm image list --all
 
 ## create vm
