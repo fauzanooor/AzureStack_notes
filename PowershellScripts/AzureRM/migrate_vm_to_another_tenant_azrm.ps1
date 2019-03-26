@@ -37,8 +37,8 @@ New-AzureRmVM -ResourceGroupName <resource-group-name> -Location <Location-name>
 ## copy vhd to another storage account
 cd "C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy"
 azcopy `
-    /source:https://<source-storage-account>.blob.core.windows.net/vhds/ `
-    /Dest:https://<target-storage-account>.blob.core.windows.net/vhds/ `
+    /source:https://<source-storage-account>.azurestack.local/vhds/ `
+    /Dest:https://<target-storage-account>.azurestack.local/vhds/ `
     /sourcekey:<source-storage-account-key> `
     /destkey:<target-storage-account-key> `
     /pattern:<vhd-name>.vhd
