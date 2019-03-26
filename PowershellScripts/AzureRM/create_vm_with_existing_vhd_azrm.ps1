@@ -9,5 +9,5 @@ $vm = New-AzureRmVMConfig -VMName $vmname -VMSize $vmsize;
 $nic1 = Get-AzureRmNetworkInterface -Name ($nic1) -ResourceGroupName $rgname;
 $nic1Id = $nic1.Id;
 $vm = Add-AzureRmVMNetworkInterface -VM $vm -Id $nic1Id;
-$vm = Set-AzureRmVMOSDisk -CreateOption attach -Name PuhuiDevelopment-DB-01 -VhdUri 'https://<storage-account-name>.blob.azurestack.local/vhds/<osdisk-vhd-file>.vhd' -Linux -vm $vm
+$vm = Set-AzureRmVMOSDisk -CreateOption attach -Name $vmname -VhdUri 'https://<storage-account-name>.blob.azurestack.local/vhds/<osdisk-vhd-file>.vhd' -Linux -vm $vm
 New-AzureRmVM -Location $loc -ResourceGroupName $rgname -VM $vm 
